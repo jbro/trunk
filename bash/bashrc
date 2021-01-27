@@ -1,0 +1,108 @@
+# shellcheck disable=SC1090
+# shellcheck disable=SC1091
+
+# This part below is not really relevant in non interactive shells
+if [ -n "$PS1" ]; then
+
+if [ "$TERM" = "xterm-kitty" ] && [ -z "$SSH_CLIENT" ]; then
+  source <(kitty + complete setup bash)
+fi
+
+# Set commandline editor to vim
+# C-x C-e
+export VISUAL=vim
+
+# shellcheck disable=SC2010
+if ls --version 2>/dev/null | grep -q GNU; then
+  alias ls='ls --color'
+else
+  alias ls='ls -G'
+fi
+
+# Case insensitive tab-completion
+bind "set completion-ignore-case on"
+bind "set show-all-if-ambiguous on"
+
+# Show mathing parenthesis
+bind "set blink-matching-paren on"
+
+# Add some colour
+bind "set colored-completion-prefix on"
+bind "set colored-stats on"
+bind "set visible-stats on"
+
+# Allow completion in the middle of words
+bind "set skip-completed-text on"
+
+# Search using command line up up and down arrow
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+
+# ctrl + arrow keys to move words
+bind '"\e[1;2C":forward-word'
+bind '"\e[1;2D":backward-word'
+
+# Setup bash history
+HISTCONTROL=ignoreboth
+HISTSIZE=-1
+HISTTIMEFORMAT='%F %T: '
+shopt -s histappend
+shopt -s cmdhist
+
+# Enable extended globs
+shopt -s extglob
+
+# List running background jobs before exiting
+shopt -s checkjobs
+
+# Show dot-files when tab completing
+shopt -s dotglob
+
+# expand ** and **/
+shopt -s globstar
+
+# Enable bash_completion
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+[ -f /usr/share/bash-completion/bash_completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
+[ -f /etc/bash_completion ] && . /etc/bash_completion
+[ -f /usr/share/doc/pkgfile/command-not-found.bash ] && . /usr/share/doc/pkgfile/command-not-found.bash
+[ -f /usr/share/racket/pkgs/shell-completion/racket-completion.bash ] && . /usr/share/racket/pkgs/shell-completion/racket-completion.bash
+
+# Prompt
+function __prompt_cmd
+{
+  local exit_status=$?
+  local prompt='λ'
+  local blue="\\[\\e[34m\\]"
+  local red="\\[\\e[31m\\]"
+  local green="\\[\\e[32m\\]"
+  local yellow="\\[\\e[33m\\]"
+  local normal="\\[\\e[m\\]"
+
+  local status_color
+  if [ $exit_status != 0 ]; then
+    status_color="$red"
+  else
+    status_color="$blue"
+  fi
+
+  PS1="${status_color}╭${normal}[$yellow\\D{%T}$normal]"
+  PS1+="$red \\u@\\h (remote)$normal"
+  PS1+="$blue \\w$normal\\n"
+
+  local let_line
+
+  if [ -n "$let_line" ]; then
+    PS1+="${status_color}│$normal $let_line"
+    PS1+="\\n"
+  fi
+
+  PS1+="${status_color}╰${normal} ${prompt} "
+
+  # Save history continuously
+  history -a
+}
+
+PROMPT_COMMAND=__prompt_cmd
+
+fi
