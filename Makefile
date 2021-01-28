@@ -4,7 +4,10 @@
 unpack: packages bash emacs languagetool systemd
 
 ## Install  pkgs-want if missing
-pkgs-want = git unzip emacs aspell aspell-da aspell-en aspell-uk default-jre
+pkgs-want = git unzip \
+	neovim \
+	emacs aspell aspell-da aspell-en aspell-uk default-jre \
+	ripgrep
 
 pkgs-have := $(shell dpkg-query -W -f '$${Package}\n')
 pkgs-missing := $(filter-out $(pkgs-have),$(pkgs-want))
