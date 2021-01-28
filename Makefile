@@ -1,7 +1,7 @@
-.PHONY: unpack packages bash emacs languagetool systemd vim
-
+MODULES = vim emacs bash languagetool systemd
+.PHONY: unpack packages $(MODULES)
 ## Unpack the trunk into homedir
-unpack: packages bash vim emacs languagetool systemd
+unpack: packages $(MODULES)
 
 ## Install  pkgs-want if missing
 pkgs-want = git unzip \
@@ -18,25 +18,8 @@ ifneq ($(pkgs-missing),)
 	sudo apt-get install -y $(pkgs-missing)
 endif
 
-## Put ~/.bashrc in place
-bash:
-	$(MAKE) -C bash
-
-## Put ~/.emacs.d in place
-emacs:
-	$(MAKE) -C emacs
-
-## Put ~/.config/nvim in place
-vim:
-	$(MAKE) -C vim
-
-## Put ~/.config/systemd in place and enable and start services
-systemd:
-	$(MAKE) -C systemd
-
-## Fetch and unzip LanguageTool
 languagetool_version := 5.2
 export languagetool_version
-languagetool:
-	$(MAKE) -C languagetool
+$(MODULES):
+	$(MAKE) -C $@
 
