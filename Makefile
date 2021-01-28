@@ -1,7 +1,7 @@
-.PHONY: unpack packages bash emacs languagetool systemd
+.PHONY: unpack packages bash emacs languagetool systemd vim
 
 ## Unpack the trunk into homedir
-unpack: packages bash emacs languagetool systemd
+unpack: packages bash vim emacs languagetool systemd
 
 ## Install  pkgs-want if missing
 pkgs-want = git unzip \
@@ -25,6 +25,10 @@ bash:
 ## Put ~/.emacs.d in place
 emacs:
 	$(MAKE) -C emacs
+
+## Put ~/.config/nvim in place
+vim:
+	$(MAKE) -C vim
 
 ## Put ~/.config/systemd in place and enable and start services
 systemd:
