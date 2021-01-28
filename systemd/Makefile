@@ -1,4 +1,4 @@
-services := $(wildcard services/*.service)
+services := $(wildcard services/*)
 links := $(foreach s,$(services),~/.config/systemd/user/$(notdir $(s)))
 enables := $(foreach s,$(services),~/.config/systemd/user/default.target.wants/$(notdir $(s)))
 

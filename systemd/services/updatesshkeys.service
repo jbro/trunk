@@ -1,0 +1,9 @@
+[Unit]
+Description=Update ssh keys for user from github
+
+[Service]
+Type=oneshot
+ExecStart=%h/trunk/updatesshkeys/updatesshkeys
+
+[Install]
+WantedBy=default.target

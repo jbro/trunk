@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+URL=https://github.com/jbro.keys
+SAVETO=~/.ssh/authorized_keys
+
+test -f "$SAVETO" || touch "$SAVETO"
+
+cur_etag=$(grep -e '^#etag:' "${SAVETO}" | cut -f 2 -d:)
+etag_header='If-None-Match: "'"$cur_etag"'"'
+fetched=$(curl -s -D - --header "$etag_header" "${URL}" | tr -d '\r')
+new_etag=$(grep -e '^etag:' <<<"$fetched" | sed -E 's%^etag: W?/?"(.*)"%\1%')
+keys=$(grep -e '^ssh-' <<<"$fetched")
+
+if [ "$cur_etag" != "$new_etag" ]; then
+  echo "#etag:$new_etag" > "$SAVETO"
+  echo "$keys" >> "$SAVETO"
+fi
