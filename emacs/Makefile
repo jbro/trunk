@@ -1,7 +1,12 @@
-.PHONY: emacsd
+include packages.mk
+packages-want := emacs aspell aspell-da aspell-en aspell-uk
 
-emacsd:
+install: emacsd-link packages
+
+emacsd-link:
 ifneq ($(realpath $(wildcard ~/.emacs.d)),$(CURDIR)/emacs.d)
-	-@mv ~/.emacs.d ~/.emacs.d-$(shell date +%s) 
+	-@mv ~/.emacs.d ~/.emacs.d-$(shell date +%s)
 	@ln -s $(CURDIR)/emacs.d ~/.emacs.d
 endif
+
+.PHONY: emacsd-link install
