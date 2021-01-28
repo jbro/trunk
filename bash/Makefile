@@ -9,7 +9,7 @@ ifneq ($(realpath $(wildcard ~/.bashrc)),$(CURDIR)/bashrc/bashrc)
 	@ln -s $(CURDIR)/bashrc/bashrc ~/.bashrc
 endif
 
-bashrc: packages-install
+bashrc: | packages-install
 	git clone https://github.com/jbro/bashrc
 
 .PHONY: bashrc-link install

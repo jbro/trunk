@@ -9,7 +9,7 @@ ifneq ($(realpath $(wildcard ~/.config/nvim)),$(CURDIR)/vim)
 	@ln -s $(CURDIR)/vim ~/.config/nvim
 endif
 
-vim: packages-install
+vim: | packages-install
 	git clone https://github.com/jbro/vim
 
-.PHONY: nvim-link
+.PHONY: nvim-link install

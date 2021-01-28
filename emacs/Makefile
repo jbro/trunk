@@ -1,7 +1,7 @@
 include packages.mk
 packages-want := emacs aspell aspell-da aspell-en aspell-uk
 
-install: emacsd-link packages
+install: emacsd-link packages-install
 
 emacsd-link:
 ifneq ($(realpath $(wildcard ~/.emacs.d)),$(CURDIR)/emacs.d)
