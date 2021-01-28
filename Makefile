@@ -1,10 +1,23 @@
 MODULES = vim emacs bash languagetool systemd
-languagetool_version := 5.2
+export languagetool_version := 5.2
 
-install: $(MODULES)
+help:
+	@echo Usage:
+	@echo "    make install"
+	@echo "    make update"
 
-export languagetool_version
-$(MODULES):
-	$(MAKE) -I ../include -C $@
 
-.PHONY: install $(MODULES)
+module-installs := $(MODULES:%=%/install)
+install: $(module-installs)
+
+$(module-installs):
+	$(MAKE) -I ../include -C $(@D) install
+
+module-update := $(MODULES:%=%/update)
+update: $(module-update)
+
+$(module-update):
+	$(MAKE) -I ../include -C $(@D) update
+
+
+.PHONY: install update help $(module-installs) $(module-update)
