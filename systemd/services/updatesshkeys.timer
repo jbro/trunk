@@ -7,4 +7,4 @@ OnActiveSec=15min
 OnUnitActiveSec=15min
 
 [Install]
-WantedBy=timers.target
+WantedBy=default.target
