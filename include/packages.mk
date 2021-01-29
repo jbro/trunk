@@ -8,10 +8,15 @@
 ## Install packages-want if missing
 packages-install: have := $(shell dpkg-query -W -f '$${Package}\n')
 packages-install: missing = $(filter-out $(have),$(packages-want))
-packages-install:
+packages-install: $(trunk_dir)/.aptupdate.stamp
 	@test -n '$(missing)' \
-		&& sudo apt-get update \
 		&& sudo apt-get install -y $(missing) \
 		|| true
+
+#		&& sudo apt-get update \
+
+$(trunk_dir)/.aptupdate.stamp:
+	touch $@
+	sudo apt-get update
 
 .PHONY: packages-install
