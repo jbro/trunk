@@ -1,8 +1,7 @@
 ##
 # Usage:
 # include symlink.mk
-# symlink;target-file: source-file 
-#
+# symlinkname!: target
 
 .PHONY: nop
 nop:
