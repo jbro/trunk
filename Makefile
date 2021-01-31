@@ -1,25 +1,31 @@
-MODULES = vim emacs bash languagetool
-export languagetool_version := 5.2
-packages-want := ripgrep
+# MODULES = emacs languagetool-5.2
+MODULES = vim bash
+packages-want = ripgrep
 
+.PHONY: help
 help:
 	@echo Usage:
 	@echo "    make install"
 	@echo "    make update"
 
-export trunk_dir := $(CURDIR)
+export trunk = $(CURDIR)
 
-include include/systemd.mk
+#include include/systemd.mk
 include include/packages.mk
 
+.PHONY: $(module-installs)
 module-installs := $(MODULES:%=%/install)
-install: $(module-installs) systemd-enable_linger packages-install
 $(module-installs):
-	$(MAKE) -I ../include -C $(@D) install
+	@$(MAKE) -I ../include -C $(@D) install
 
+.PHONY: install
+install: $(module-installs) packages-install
+
+.PHONY: $(module-update)
 module-update := $(MODULES:%=%/update)
-update: $(module-update)
 $(module-update):
-	$(MAKE) -I ../include -C $(@D) update
+	@$(MAKE) -I ../include -C $(@D) update
 
-.PHONY: install update help $(module-installs) $(module-update)
+.PHONY: update
+update: $(module-update)
+
