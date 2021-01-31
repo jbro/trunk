@@ -5,18 +5,21 @@
 # eg:
 # packages-want := git unzip
 
-## Install packages-want if missing
-packages-install: have := $(shell dpkg-query -W -f '$${Package}\n')
-packages-install: missing = $(filter-out $(have),$(packages-want))
-packages-install: $(trunk_dir)/.aptupdate.stamp
-	@test -n '$(missing)' \
-		&& sudo apt-get install -y $(missing) \
-		|| true
+.PHONY: nop
+nop:
 
-#		&& sudo apt-get update \
-
-$(trunk_dir)/.aptupdate.stamp:
-	touch $@
-	sudo apt-get update
+export packages_import_count += 1
 
 .PHONY: packages-install
+packages-install: have = $(shell dpkg-query -W -f '$${Package}\n')
+packages-install: missing = $(filter-out $(have),$(packages-want))
+packages-install: ${trunk}/.packages-cache-update
+	@sudo apt-get install -y $(missing)
+ifeq ($(packages_import_count), 1)
+	@rm -f "$<"
+endif
+
+${trunk}/.packages-cache-update: 
+	@sudo apt-get update
+	@touch $@
+
