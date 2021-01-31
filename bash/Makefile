@@ -1,15 +1,18 @@
+.PHONY: nop
+nop:
+
+packages-want = git
 include packages.mk
-packages-want := git
 
-install: bashrc-link
+include symlink.mk
 
-bashrc-link: bashrc
-ifneq ($(realpath $(wildcard ~/.bashrc)),$(CURDIR)/bashrc/bashrc)
-	-@mv ~/.bashrc ~/.bashrc-$(shell date +%s)
-	@ln -s $(CURDIR)/bashrc/bashrc ~/.bashrc
-endif
+.PHONY: install
+install: ~/.bashrc!
+
+~/.bashrc!: bashrc/bashrc
+
+bashrc/bashrc: bashrc
 
 bashrc: | packages-install
 	git clone https://github.com/jbro/bashrc
 
-.PHONY: bashrc-link install
