@@ -1,7 +1,5 @@
-# MODULES = emacs languagetool-5.2
-MODULES = vim bash
+MODULES = vim bash emacs
 packages-want = ripgrep
-
 .PHONY: help
 help:
 	@echo Usage:
@@ -10,8 +8,8 @@ help:
 
 export trunk = $(CURDIR)
 
-#include include/systemd.mk
 include include/packages.mk
+#include include/systemd.mk
 
 .PHONY: $(module-installs)
 module-installs := $(MODULES:%=%/install)
