@@ -1,15 +1,16 @@
+.PHONY: nop
+nop:
+
+packages-want = neovim git
 include packages.mk
-packages-want := neovim git
 
-install: nvim-link
+include symlink.mk
 
-nvim-link: vim
-ifneq ($(realpath $(wildcard ~/.config/nvim)),$(CURDIR)/vim)
-	-@mv ~/.config/nvim ~/.config/nvim-$(shell date +%s)
-	@ln -s $(CURDIR)/vim ~/.config/nvim
-endif
+.PHONY: install
+install: ~/.config/nvim!
+
+~/.config/nvim!: vim
 
 vim: | packages-install
 	git clone https://github.com/jbro/vim
 
-.PHONY: nvim-link install
