@@ -12,8 +12,9 @@ test "$(realpath "$linkname")" = "$target" && exit 0
 mkdir -p "$(dirname "$linkname")"
 
 # move old target to attic
-mkdir -p "${attic}$(dirname "$linkname")"
-mv "$linkname" "${attic}${linkname}-$(date +%s)"
+test -e "$linkname" \
+  && mkdir -p "${attic}$(dirname "$linkname")" \
+  && mv "$linkname" "${attic}${linkname}-$(date +%s)"
 
 # link
-ln -s "$target" "$linkname"
+ln -sf "$target" "$linkname"
