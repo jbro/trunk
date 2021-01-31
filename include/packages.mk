@@ -4,8 +4,6 @@
 # include packages.mk
 # target: packages-insall
 
-.SECONDEXPANSION:
-
 .PHONY: nop
 nop:
 
