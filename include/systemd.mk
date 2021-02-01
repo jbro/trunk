@@ -1,7 +1,10 @@
 ##
 # Usage:
 # include systemd.mk
-# systemd/emacs.service
+#
+# To install system/%.service into default.target:
+# default.target.wants/%.service:
+#
 
 .PHONY: nop
 nop:
