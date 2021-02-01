@@ -12,7 +12,7 @@ install: ~/.config/nvim->
 ~/.config/nvim->: vim
 
 vim: | packages-install
-	git clone https://github.com/jbro/vim
+	@git clone git@github.com:jbro/vim.git
 
 .PHONY: update
 update:
