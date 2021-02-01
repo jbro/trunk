@@ -1,22 +1,22 @@
-# services := $(wildcard services/*)
-# links := $(foreach s,$(services),~/.config/systemd/user/$(notdir $(s)))
-# enables := $(foreach s,$(services),~/.config/systemd/user/default.target.wants/$(notdir $(s)))
+##
+# Usage:
+# include systemd.mk
+# systemd/emacs.service
 
+.PHONY: nop
+nop:
 
-# .PHONY: all
+.PHONY: .systemd-enable_linger
+.systemd-enable_linger: /var/lib/systemd/linger/$(USER)
+/var/lib/systemd/linger/$(USER):
+	@sudo loginctl enable-linger $(USER)
 
-# all: $(enables) $(linger)
+.PHONY: default.target.wants/%.service
+default.target.wants/%.service: ~/.config/systemd/user/default.target.wants/%.service .systemd-enable_linger ;
 
-# $(enables): $(wildcard ~/).config/systemd/user/default.target.wants/% : $(wildcard ~/).config/systemd/user/%
-	# systemctl --user enable $*
-	# systemctl --user start $*
+.SECONDARY:
+~/.config/systemd/user/default.target.wants/%.service: systemd/%.service
+	@systemctl --user link $< \
+		&& systemctl --user enable $(<F) \
+		&& systemctl --user start $(<F)
 
-# $(links): $(wildcard ~/).config/systemd/user/% : services/%
-	# @mkdir -p ~/.config/systemd/user
-	# @ln -s $(CURDIR)/$< $@
-	# @systemctl --user daemon-reload
-
-linger := /var/lib/systemd/linger/$(USER)
-systemd-enable_linger: $(linger)
-$(linger):
-	sudo loginctl enable-linger $(USER)

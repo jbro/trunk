@@ -9,7 +9,6 @@ help:
 export trunk = $(CURDIR)
 
 include include/packages.mk
-#include include/systemd.mk
 
 .PHONY: $(module-installs)
 module-installs := $(MODULES:%=%/install)
