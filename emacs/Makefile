@@ -11,6 +11,9 @@ install: languagetool packages-install ~/.emacs.d-> default.target.wants/emacs.s
 
 ~/.emacs.d->: emacs.d
 
+emacs.d:
+	@git clone https://github.com/jbro/emacs.d
+
 .PHONY: languagetool
 languagetool: version = 5.2
 languagetool:
@@ -18,3 +21,4 @@ languagetool:
 
 .PHONY: update
 update:
+	@cd emacs.d && git pull
