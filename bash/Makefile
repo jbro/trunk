@@ -7,9 +7,9 @@ include packages.mk
 include symlink.mk
 
 .PHONY: install
-install: ~/.bashrc!
+install: ~/.bashrc->
 
-~/.bashrc!: bashrc/bashrc
+~/.bashrc->: bashrc/bashrc
 
 bashrc/bashrc: bashrc
 

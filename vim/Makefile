@@ -7,9 +7,9 @@ include packages.mk
 include symlink.mk
 
 .PHONY: install
-install: ~/.config/nvim!
+install: ~/.config/nvim->
 
-~/.config/nvim!: vim
+~/.config/nvim->: vim
 
 vim: | packages-install
 	git clone https://github.com/jbro/vim
