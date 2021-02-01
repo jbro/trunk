@@ -16,3 +16,6 @@ bashrc/bashrc: bashrc
 bashrc: | packages-install
 	git clone https://github.com/jbro/bashrc
 
+.PHONY: update
+update:
+	@cd bashrc && git pull

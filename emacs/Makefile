@@ -15,3 +15,6 @@ install: languagetool packages-install ~/.emacs.d! default.target.wants/emacs.se
 languagetool: version = 5.2
 languagetool:
 	$(MAKE) -C $@ languagetool-install-$(version)
+
+.PHONY: update
+update:

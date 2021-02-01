@@ -14,3 +14,6 @@ install: ~/.config/nvim!
 vim: | packages-install
 	git clone https://github.com/jbro/vim
 
+.PHONY: update
+update:
+	@cd vim && git pull
