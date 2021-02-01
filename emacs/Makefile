@@ -14,7 +14,7 @@ install: languagetool packages-install ~/.emacs.d-> default.target.wants/emacs.s
 .PHONY: languagetool
 languagetool: version = 5.2
 languagetool:
-	$(MAKE) -C $@ languagetool-install-$(version)
+	@$(MAKE) -C $@ languagetool-install-$(version)
 
 .PHONY: update
 update:
