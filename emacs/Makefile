@@ -7,7 +7,11 @@ include systemd.mk
 include symlink.mk
 
 .PHONY: install
-install: packages-install ~/.emacs.d! default.target.wants/emacs.service
+install: languagetool packages-install ~/.emacs.d! default.target.wants/emacs.service
 
 ~/.emacs.d!: emacs.d
 
+.PHONY: languagetool
+languagetool: version = 5.2
+languagetool:
+	$(MAKE) -C $@ languagetool-install-$(version)

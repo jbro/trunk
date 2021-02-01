@@ -3,4 +3,4 @@ attic
 bash/bashrc/
 emacs/emacs.d/elpa/
 vim/vim/
-languagetool/LanguageTool*
+emacs/languagetool/LanguageTool*

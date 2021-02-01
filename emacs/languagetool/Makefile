@@ -1,16 +1,19 @@
-include packages.mk
+.PHONY: nop
+nop:
+
 packages-want := default-jre unzip wget
+include packages.mk
+include systemd.mk
 
-install: LanguageTool
+.PHONY: languagetool-install-%
+languagetool-install-%: LanguageTool-% default.target.wants/languagetool.service ;
 
-version := $(languagetool_version)
-LanguageTool: LanguageTool-$(version)
-	ln -sf LanguageTool-$(version) LanguageTool
+.SECONDARY:
+LanguageTool-%: | LanguageTool-%.zip
+	unzip -o $|
+	ln -sf $@ LanguageTool
 
-LanguageTool-$(version): | LanguageTool-$(version).zip
-	unzip -o LanguageTool-$(version).zip
+.SECONDARY:
+LanguageTool-%.zip: | packages-install
+	@wget https://languagetool.org/download/$@
 
-LanguageTool-$(version).zip: | packages-install
-	wget https://languagetool.org/download/LanguageTool-$(version).zip
-
-.PHONY: install

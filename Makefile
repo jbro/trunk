@@ -14,7 +14,7 @@ include include/packages.mk
 .PHONY: $(module-installs)
 module-installs := $(MODULES:%=%/install)
 $(module-installs):
-	@$(MAKE) -I ../include -C $(@D) install
+	@$(MAKE) -I $(trunk)/include -C $(@D) install
 
 .PHONY: install
 install: $(module-installs) packages-install
@@ -22,7 +22,7 @@ install: $(module-installs) packages-install
 .PHONY: $(module-update)
 module-update := $(MODULES:%=%/update)
 $(module-update):
-	@$(MAKE) -I ../include -C $(@D) update
+	@$(MAKE) -I $(trunk)/include -C $(@D) update
 
 .PHONY: update
 update: $(module-update)
