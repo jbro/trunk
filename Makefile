@@ -1,3 +1,6 @@
+##
+# TODO:
+# - Make MODULES dependant on host name, or include seperate MODULE_$(HOSTNAME)
 MODULES = vim bash emacs updatesshkeys
 packages-want = ripgrep
 
@@ -22,6 +25,7 @@ install: $(module-installs) packages-install
 .PHONY: $(module-update)
 module-update := $(MODULES:%=%/update)
 $(module-update):
+	@git pull
 	@$(MAKE) -I $(trunk)/include -C $(@D) update
 
 .PHONY: update
