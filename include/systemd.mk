@@ -23,3 +23,11 @@ default.target.wants/%.service: ~/.config/systemd/user/default.target.wants/%.se
 		&& systemctl --user enable $(<F) \
 		&& systemctl --user start $(<F)
 
+.PHONY: timers.target.wants/%.timer
+timers.target.wants/%.timer: ~/.config/systemd/user/timers.target.wants/%.timer .systemd-enable_linger ;
+
+.SECONDARY:
+~/.config/systemd/user/timers.target.wants/%.timer: systemd/%.timer
+	@systemctl --user link $< \
+		&& systemctl --user enable $(<F) \
+		&& systemctl --user start $(<F)

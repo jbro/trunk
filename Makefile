@@ -1,5 +1,6 @@
-MODULES = vim bash emacs
+MODULES = vim bash emacs updatesshkeys
 packages-want = ripgrep
+
 .PHONY: help
 help:
 	@echo Usage:
