@@ -1,7 +1,7 @@
 .PHONY: nop
 nop:
 
-packages-want := default-jre unzip wget
+packages-want := default-jre-headless unzip wget
 include packages.mk
 include systemd.mk
 
